@@ -16,6 +16,14 @@ $(function() {
 	$('body').toggleClass('lock')
 })
 
+	$(document).ready(function () {
+	$('.block__title').click(function (event) {
+		event.preventDefault()
+
+		$(this).toggleClass('active').next().slideToggle(300);
+	})
+})
+
 	// Nav
 
 	let introH = $("#intro").innerHeight(), 
@@ -34,7 +42,7 @@ $(function() {
 
 	function checkScroll(scrollOffset){
 
-		scrollOffset >= introH? header.addClass("fixed") :header.removeClass("fixed")
+		scrollOffset >= introH+400? header.addClass("fixed") :header.removeClass("fixed")
 	}
 
 	// Smooth scroll
@@ -42,7 +50,7 @@ $(function() {
 	let btn = $("#header__logo")
 
 	jQuery(window).on("scroll", scroll)
-
+	
 	$("nav").on("click tap","a", function(event) {
 
 	    event.preventDefault()
@@ -63,6 +71,7 @@ $(function() {
 
 	btn.on("click tap", event =>{
 	   event.preventDefault()
+
 	   $("html, body").animate({scrollTop:0}, '300')
 	})
 
@@ -79,6 +88,9 @@ $(function() {
 		        $("a.active").removeClass("active")
 		        $("a[href='#"+id+"']").addClass("active")
 		    }
+		    if (scroll == 0) {
+				$("a.active").removeClass("active")
+			}
 		})
 
 		const $footer = $("footer")
@@ -92,6 +104,29 @@ $(function() {
 		        $("a.active").removeClass("active")
 		        $("a[href='#"+id+"']").addClass("active")
 		    }
+		    if (scroll <= 800) {
+				$("a.active").removeClass("active")
+			}
 		})
 	 }
+
+	 // Parallax
+
+	document.addEventListener('mousemove', parallax)
+
+	function parallax(e) {
+		this.querySelectorAll('.parallax').forEach(par => {
+			const speed = par.getAttribute('data-speed')
+
+			const x = (window.innerWidth - e.pageX*speed)/90
+			const y = (window.innerHeight - e.pageY*speed)/100
+
+			par.style.transform = `translateX(${x}px) translateY(${y}px)`
+		})
+	}
+
+	// Animation
+
+	
+	
 })
